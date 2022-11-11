@@ -8,10 +8,7 @@
 import SwiftUI
 
 struct MainView: View {
-    private enum Titles {
-        static let navTitle = "Ваши карты"
-        static let addButtonTitle = "+ Добавить"
-    }
+    @State private var addCardFormIsPresented = false
 
     var body: some View {
         NavigationView {
@@ -49,6 +46,13 @@ struct MainView: View {
                 .background(Color.black)
                 .cornerRadius(cornerRadius)
         })
+    }
+}
+
+extension MainView {
+    private enum Titles {
+        static let navTitle = "Ваши карты"
+        static let addButtonTitle = "+ Добавить"
     }
 }
 
