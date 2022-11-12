@@ -13,6 +13,9 @@
 		9CA6C7D4291EACF2006997B6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9CA6C7D3291EACF2006997B6 /* Preview Assets.xcassets */; };
 		9CA6C7D6291EACF2006997B6 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA6C7D5291EACF2006997B6 /* Persistence.swift */; };
 		9CA6C7D9291EACF2006997B6 /* MoneyTracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9CA6C7D7291EACF2006997B6 /* MoneyTracker.xcdatamodeld */; };
+		9CA6C7E2291EAE7B006997B6 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA6C7E1291EAE7B006997B6 /* MainView.swift */; };
+		9CA6C7E4291EB196006997B6 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA6C7E3291EB196006997B6 /* CardView.swift */; };
+		9CA6C7E9291EBD44006997B6 /* AddCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA6C7E8291EBD44006997B6 /* AddCardView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +26,9 @@
 		9CA6C7D3291EACF2006997B6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		9CA6C7D5291EACF2006997B6 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		9CA6C7D8291EACF2006997B6 /* MoneyTracker.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MoneyTracker.xcdatamodel; sourceTree = "<group>"; };
+		9CA6C7E1291EAE7B006997B6 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		9CA6C7E3291EB196006997B6 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		9CA6C7E8291EBD44006997B6 /* AddCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,12 +61,11 @@
 		9CA6C7CB291EACEF006997B6 /* MoneyTracker */ = {
 			isa = PBXGroup;
 			children = (
-				9CA6C7CC291EACEF006997B6 /* MoneyTrackerApp.swift */,
-				9CA6C7CE291EACEF006997B6 /* ContentView.swift */,
-				9CA6C7D0291EACF2006997B6 /* Assets.xcassets */,
+				9CA6C7E5291EB7CE006997B6 /* App */,
+				9CA6C7E7291EB87D006997B6 /* Views */,
+				9CA6C7E6291EB7F1006997B6 /* Support Files */,
 				9CA6C7D5291EACF2006997B6 /* Persistence.swift */,
 				9CA6C7D7291EACF2006997B6 /* MoneyTracker.xcdatamodeld */,
-				9CA6C7D2291EACF2006997B6 /* Preview Content */,
 			);
 			path = MoneyTracker;
 			sourceTree = "<group>";
@@ -71,6 +76,42 @@
 				9CA6C7D3291EACF2006997B6 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		9CA6C7DF291EAE69006997B6 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				9CA6C7E1291EAE7B006997B6 /* MainView.swift */,
+				9CA6C7E3291EB196006997B6 /* CardView.swift */,
+				9CA6C7E8291EBD44006997B6 /* AddCardView.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		9CA6C7E5291EB7CE006997B6 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				9CA6C7CC291EACEF006997B6 /* MoneyTrackerApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		9CA6C7E6291EB7F1006997B6 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				9CA6C7D0291EACF2006997B6 /* Assets.xcassets */,
+				9CA6C7D2291EACF2006997B6 /* Preview Content */,
+			);
+			name = "Support Files";
+			sourceTree = "<group>";
+		};
+		9CA6C7E7291EB87D006997B6 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				9CA6C7CE291EACEF006997B6 /* ContentView.swift */,
+				9CA6C7DF291EAE69006997B6 /* Main */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -146,7 +187,10 @@
 				9CA6C7D6291EACF2006997B6 /* Persistence.swift in Sources */,
 				9CA6C7D9291EACF2006997B6 /* MoneyTracker.xcdatamodeld in Sources */,
 				9CA6C7CF291EACEF006997B6 /* ContentView.swift in Sources */,
+				9CA6C7E2291EAE7B006997B6 /* MainView.swift in Sources */,
+				9CA6C7E4291EB196006997B6 /* CardView.swift in Sources */,
 				9CA6C7CD291EACEF006997B6 /* MoneyTrackerApp.swift in Sources */,
+				9CA6C7E9291EBD44006997B6 /* AddCardView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
