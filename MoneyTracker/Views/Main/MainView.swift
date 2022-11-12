@@ -22,6 +22,11 @@ struct MainView: View {
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
                 .frame(height: 280)
                 .indexViewStyle(.page(backgroundDisplayMode: .always))
+
+                Spacer()
+                    .fullScreenCover(isPresented: $addCardFormIsPresented, onDismiss: nil) {
+                        AddCardView()
+                    }
             }
             .navigationTitle(Titles.navTitle)
             .navigationBarItems(trailing: addCardButton)
@@ -30,7 +35,7 @@ struct MainView: View {
 
     var addCardButton: some View {
         Button(action: {
-
+            addCardFormIsPresented.toggle()
         }, label: {
             let cornerRadius: CGFloat = 5
 
