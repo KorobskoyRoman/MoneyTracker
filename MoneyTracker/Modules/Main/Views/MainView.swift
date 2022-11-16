@@ -28,7 +28,7 @@ struct MainView: View {
                 if !cards.isEmpty {
                     TabView {
                         ForEach(cards) { card in
-                            CardView()
+                            CardView(card: card)
                                 .padding(.bottom, 40)
                         }
                     }
@@ -39,7 +39,7 @@ struct MainView: View {
 
                 Spacer()
                     .fullScreenCover(isPresented: $addCardFormIsPresented, onDismiss: nil) {
-                        AddCardView()
+                        AddCardView(vm: vm)
                     }
             }
             .navigationTitle(Titles.navTitle)
@@ -47,16 +47,14 @@ struct MainView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     addCardButton
                 }
+                
+                ToolbarItem(placement: .navigationBarLeading) {
+                    addItemButton
+                }
 
-//                HStack {
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        addItemButton
-                    }
-
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        deleteAllItemsButton
-                    }
-//                }
+                ToolbarItem(placement: .navigationBarLeading) {
+                    deleteAllItemsButton
+                }
             }
         }
     }

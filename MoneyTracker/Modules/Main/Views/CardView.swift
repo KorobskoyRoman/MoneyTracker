@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct CardView: View {
+    let card: Card
+    
     var body: some View {
         let corner: CGFloat = 8
         let shadow: CGFloat = 5
@@ -16,22 +18,32 @@ struct CardView: View {
         VStack(alignment: .leading, spacing: spacing) {
             titleText
             balanceView
-            Text("1234 1234 1234 1324")
-            Text("Credit limit: 50000 Rub.")
+            Text(card.number ?? "")
+            Text("Credit limit: \(card.limit)")
 
             HStack { Spacer() }
         }
         .foregroundColor(.white)
         .padding()
         .background(
-            LinearGradient(
-                colors: [
-                    .blue.opacity(0.6),
-                    .blue
-                ],
-                startPoint: .center,
-                endPoint: .bottom
-            )
+            VStack {
+
+                if let colorData = card.color,
+                   let uiColor = UIColor.color(data: colorData),
+                   let actualColor = Color(uiColor) {
+
+                    LinearGradient(
+                        colors: [
+                            actualColor.opacity(0.6),
+                            actualColor
+                        ],
+                        startPoint: .center,
+                        endPoint: .bottom
+                    )
+                } else {
+                    Color.cyan
+                }
+            }
         )
         .overlay(
             RoundedRectangle(cornerRadius: corner)
@@ -46,7 +58,7 @@ struct CardView: View {
 
 extension CardView {
     var titleText: some View {
-        Text("Visa card")
+        Text(card.name ?? "")
             .font(.system(size: 24, weight: .semibold))
     }
 
@@ -58,14 +70,14 @@ extension CardView {
                 .frame(height: 33)
                 .clipped()
             Spacer()
-            Text("Balance: 400000 Rub.")
+            Text("Balance: \(card.balance) Rub.")
                 .font(.system(size: 18, weight: .semibold))
         }
     }
 }
 
-struct CardView_Previews: PreviewProvider {
-    static var previews: some View {
-        CardView()
-    }
-}
+//struct CardView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        CardView()
+//    }
+//}
