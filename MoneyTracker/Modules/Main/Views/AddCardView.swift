@@ -10,16 +10,19 @@ import SwiftUI
 struct AddCardView: View {
     @Environment(\.dismiss) var presentationMode
 
+    var vm: MainViewModelType
+
     @State private var name = ""
-    @State private var cardNumber = ""
+    @State private var cardNumber = "".applyPattern()
     @State private var limit = ""
+    @State private var balance = ""
 
     @State private var cardType = "Visa"
-    @State private var month = 1
+    @State private var month = Calendar.current.component(.month, from: Date())
     @State private var year = Calendar.current.component(.year, from: Date())
     @State private var color = Color.blue
 
-    let currentYear = Calendar.current.component(.year, from: Date())
+    private let currentYear = Calendar.current.component(.year, from: Date())
 
     var body: some View {
         NavigationView {
@@ -58,15 +61,37 @@ struct AddCardView: View {
                 }
             }
             .navigationTitle(Titles.title)
-            .navigationBarItems(leading: Button(
-                action: {
-                    presentationMode.callAsFunction()
-                }, label: {
-                    Text(Titles.cancel)
-                        .foregroundColor(.red)
-                }
-            ))
+            .navigationBarItems(leading: cancelButton,
+                                trailing: saveButton)
+
         }
+    }
+
+    private var cancelButton: some View {
+        Button(action: {
+            presentationMode.callAsFunction()
+        }, label: {
+            Text(Titles.cancel)
+                .foregroundColor(.red)
+        })
+    }
+
+    private var saveButton: some View {
+        Button(action: {
+            vm.saveItem(name: name,
+                        number: cardNumber,
+                        limit: limit,
+                        type: cardType,
+                        month: month,
+                        year: year,
+                        timestamp: Date(),
+                        balance: balance,
+                        color: color)
+            presentationMode.callAsFunction()
+        },
+               label: {
+            Text(Titles.save)
+        })
     }
 }
 
@@ -74,6 +99,7 @@ extension AddCardView {
     private enum Titles {
         static let title = "Добавление карты"
         static let cancel = "Отмена"
+        static let save = "Сохранить"
         static let name = "Имя"
         static let cardInfo = "Информация о карте"
         static let expInfo = "Дата окончания"
@@ -88,6 +114,6 @@ extension AddCardView {
 
 struct Previews_AddCardView_Previews: PreviewProvider {
     static var previews: some View {
-        AddCardView()
+        AddCardView(vm: MainViewModel())
     }
 }
