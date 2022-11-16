@@ -18,6 +18,8 @@
 		9CA6C7E9291EBD44006997B6 /* AddCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA6C7E8291EBD44006997B6 /* AddCardView.swift */; };
 		9CA6C7EB2923F705006997B6 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA6C7EA2923F705006997B6 /* MainViewModel.swift */; };
 		9CA6C7F02923F979006997B6 /* CoreDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA6C7EF2923F979006997B6 /* CoreDataService.swift */; };
+		9CA6C7F3292555D6006997B6 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA6C7F2292555D6006997B6 /* String+.swift */; };
+		9CA6C7F629256379006997B6 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA6C7F529256379006997B6 /* UIColor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +35,8 @@
 		9CA6C7E8291EBD44006997B6 /* AddCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardView.swift; sourceTree = "<group>"; };
 		9CA6C7EA2923F705006997B6 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		9CA6C7EF2923F979006997B6 /* CoreDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataService.swift; sourceTree = "<group>"; };
+		9CA6C7F2292555D6006997B6 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
+		9CA6C7F529256379006997B6 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +73,7 @@
 				9CA6C7E7291EB87D006997B6 /* Modules */,
 				9CA6C7E6291EB7F1006997B6 /* Support Files */,
 				9CA6C7EE2923F960006997B6 /* Services */,
+				9CA6C7F4292555DA006997B6 /* Extensions */,
 			);
 			path = MoneyTracker;
 			sourceTree = "<group>";
@@ -144,6 +149,15 @@
 			path = CoreData;
 			sourceTree = "<group>";
 		};
+		9CA6C7F4292555DA006997B6 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				9CA6C7F2292555D6006997B6 /* String+.swift */,
+				9CA6C7F529256379006997B6 /* UIColor.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -216,10 +230,12 @@
 			files = (
 				9CA6C7D6291EACF2006997B6 /* Persistence.swift in Sources */,
 				9CA6C7D9291EACF2006997B6 /* MoneyTracker.xcdatamodeld in Sources */,
+				9CA6C7F3292555D6006997B6 /* String+.swift in Sources */,
 				9CA6C7CF291EACEF006997B6 /* ContentView.swift in Sources */,
 				9CA6C7E2291EAE7B006997B6 /* MainView.swift in Sources */,
 				9CA6C7E4291EB196006997B6 /* CardView.swift in Sources */,
 				9CA6C7CD291EACEF006997B6 /* MoneyTrackerApp.swift in Sources */,
+				9CA6C7F629256379006997B6 /* UIColor.swift in Sources */,
 				9CA6C7E9291EBD44006997B6 /* AddCardView.swift in Sources */,
 				9CA6C7F02923F979006997B6 /* CoreDataService.swift in Sources */,
 				9CA6C7EB2923F705006997B6 /* MainViewModel.swift in Sources */,
