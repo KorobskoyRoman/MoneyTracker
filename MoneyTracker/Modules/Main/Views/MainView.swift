@@ -35,6 +35,8 @@ struct MainView: View {
                     .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
                     .frame(height: 280)
                     .indexViewStyle(.page(backgroundDisplayMode: .always))
+                } else {
+                    noCardView
                 }
 
                 Spacer()
@@ -94,12 +96,42 @@ struct MainView: View {
             }
         }
     }
+
+    private var noCardView: some View {
+        VStack {
+            let cornerRadius: CGFloat = 5
+
+            Text(Titles.noCardsTitle)
+                .padding(.horizontal, 48)
+                .padding(.vertical)
+                .multilineTextAlignment(.center)
+            Button {
+                addCardFormIsPresented.toggle()
+            } label: {
+                Text(Titles.addFirstCardTitle)
+                    .foregroundColor(Color(.systemBackground))
+            }
+            .foregroundColor(.white)
+            .font(.system(size: 18, weight: .semibold))
+            .padding(EdgeInsets(
+                top: 8,
+                leading: 12,
+                bottom: 8,
+                trailing: 12)
+            )
+            .background(Color(.label))
+            .cornerRadius(cornerRadius)
+        }
+        .font(.system(size: 22, weight: .semibold))
+    }
 }
 
 extension MainView {
     private enum Titles {
         static let navTitle = "Ваши карты"
         static let addButtonTitle = "+ Добавить"
+        static let noCardsTitle = "Нет доступных для отображения карт. Хотите добавить?"
+        static let addFirstCardTitle = "+ Добавить первую карту"
     }
 }
 
