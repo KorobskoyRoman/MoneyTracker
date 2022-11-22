@@ -78,7 +78,8 @@ struct AddCardView: View {
 
     private var saveButton: some View {
         Button(action: {
-            vm.saveItem(name: name,
+            vm.saveItem(card: card,
+                        name: name,
                         number: cardNumber,
                         limit: limit,
                         type: cardType,

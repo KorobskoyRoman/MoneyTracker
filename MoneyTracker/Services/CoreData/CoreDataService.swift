@@ -22,7 +22,8 @@ final class CoreDataService: ObservableObject {
         }
     }
 
-    func saveItem(name: String,
+    func saveItem(card: Card?,
+                  name: String,
                   number: String,
                   limit: String,
                   type: String,
@@ -31,16 +32,18 @@ final class CoreDataService: ObservableObject {
                   timestamp: Date,
                   balance: String,
                   color: Color) {
-        let card = Card(context: viewContext)
 
-        card.name = name
-        card.number = number
-        card.limit = Int32(limit) ?? 0
-        card.expMonth = Int16(month)
-        card.expYear = Int16(year)
-        card.timestamp = timestamp
-        card.balance = Int64(balance) ?? 0
-        card.color = UIColor(color).encode()
+        let newCard = card != nil ? card! : Card(context: viewContext)
+
+        newCard.name = name
+        newCard.number = number
+        newCard.limit = Int32(limit) ?? 0
+        newCard.expMonth = Int16(month)
+        newCard.expYear = Int16(year)
+        newCard.timestamp = timestamp
+        newCard.balance = Int64(balance) ?? 0
+        newCard.color = UIColor(color).encode()
+        newCard.type = type
 
         do {
             try viewContext.save()

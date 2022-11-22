@@ -10,7 +10,8 @@ import SwiftUI
 protocol MainViewModelType {
     func addItem()
     func deleteAllItems(_ cards: FetchedResults<Card>)
-    func saveItem(name: String,
+    func saveItem(card: Card?,
+                  name: String,
                   number: String,
                   limit: String,
                   type: String,
@@ -34,7 +35,8 @@ final class MainViewModel: MainViewModelType  {
         coreDataService.deleteAllItems(cards)
     }
 
-    func saveItem(name: String,
+    func saveItem(card: Card?,
+                  name: String,
                   number: String,
                   limit: String,
                   type: String,
@@ -43,7 +45,8 @@ final class MainViewModel: MainViewModelType  {
                   timestamp: Date,
                   balance: String,
                   color: Color) {
-        coreDataService.saveItem(name: name,
+        coreDataService.saveItem(card: card,
+                                 name: name,
                                  number: number,
                                  limit: limit,
                                  type: type,
