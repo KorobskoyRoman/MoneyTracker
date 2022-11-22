@@ -10,16 +10,43 @@ import SwiftUI
 struct AddCardView: View {
     @Environment(\.dismiss) var presentationMode
 
+    var vm: MainViewModelType
+    let card: Card?
+
     @State private var name = ""
-    @State private var cardNumber = ""
+    @State private var cardNumber = "".applyPattern()
     @State private var limit = ""
+    @State private var balance = ""
 
     @State private var cardType = "Visa"
-    @State private var month = 1
+    @State private var month = Calendar.current.component(.month, from: Date())
     @State private var year = Calendar.current.component(.year, from: Date())
     @State private var color = Color.blue
 
-    let currentYear = Calendar.current.component(.year, from: Date())
+    private let currentYear = Calendar.current.component(.year, from: Date())
+
+    init(vm: MainViewModelType, card: Card? = nil) {
+        self.vm = vm
+        self.card = card
+
+        _name = State(initialValue: self.card?.name ?? "")
+        _cardNumber = State(initialValue: self.card?.number ?? "")
+        _cardType = State(initialValue: self.card?.type ?? "")
+
+        if let limit = card?.limit {
+            _limit = State(initialValue: String(limit))
+        }
+
+        _month = State(initialValue: Int(self.card?.expMonth ??
+                                         Int16(Calendar.current.component(.month, from: Date()))))
+        _year = State(initialValue: Int(self.card?.expYear ?? Int16(currentYear)))
+
+        if let data = self.card?.color,
+           let uiColor = UIColor.color(data: data) {
+            let c = Color(uiColor: uiColor)
+            _color = State(initialValue: c)
+        }
+    }
 
     var body: some View {
         NavigationView {
@@ -57,16 +84,39 @@ struct AddCardView: View {
                     ColorPicker(Titles.color, selection: $color)
                 }
             }
-            .navigationTitle(Titles.title)
-            .navigationBarItems(leading: Button(
-                action: {
-                    presentationMode.callAsFunction()
-                }, label: {
-                    Text(Titles.cancel)
-                        .foregroundColor(.red)
-                }
-            ))
+            .navigationTitle(card != nil ? card?.name ?? "N/A" : Titles.title)
+            .navigationBarItems(leading: cancelButton,
+                                trailing: saveButton)
+
         }
+    }
+
+    private var cancelButton: some View {
+        Button(action: {
+            presentationMode.callAsFunction()
+        }, label: {
+            Text(Titles.cancel)
+                .foregroundColor(.red)
+        })
+    }
+
+    private var saveButton: some View {
+        Button(action: {
+            vm.saveItem(card: card,
+                        name: name,
+                        number: cardNumber,
+                        limit: limit,
+                        type: cardType,
+                        month: month,
+                        year: year,
+                        timestamp: Date(),
+                        balance: balance,
+                        color: color)
+            presentationMode.callAsFunction()
+        },
+               label: {
+            Text(Titles.save)
+        })
     }
 }
 
@@ -74,6 +124,7 @@ extension AddCardView {
     private enum Titles {
         static let title = "Добавление карты"
         static let cancel = "Отмена"
+        static let save = "Сохранить"
         static let name = "Имя"
         static let cardInfo = "Информация о карте"
         static let expInfo = "Дата окончания"
@@ -88,6 +139,6 @@ extension AddCardView {
 
 struct Previews_AddCardView_Previews: PreviewProvider {
     static var previews: some View {
-        AddCardView()
+        AddCardView(vm: MainViewModel())
     }
 }
