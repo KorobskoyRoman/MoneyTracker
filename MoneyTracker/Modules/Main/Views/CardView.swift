@@ -9,6 +9,9 @@ import SwiftUI
 
 struct CardView: View {
     let card: Card
+    let vm: MainViewModelType
+
+    @State private var actionSheetShow = false
     
     var body: some View {
         let corner: CGFloat = 8
@@ -16,7 +19,11 @@ struct CardView: View {
         let spacing: CGFloat = 12
 
         VStack(alignment: .leading, spacing: spacing) {
-            titleText
+            HStack {
+                titleText
+                Spacer()
+                ellipseButton
+            }
             balanceView
             Text(card.number ?? "")
             Text("Credit limit: \(card.limit)")
@@ -57,12 +64,12 @@ struct CardView: View {
 }
 
 extension CardView {
-    var titleText: some View {
+    private var titleText: some View {
         Text(card.name ?? "")
             .font(.system(size: 24, weight: .semibold))
     }
 
-    var balanceView: some View {
+    private var balanceView: some View {
         HStack {
             Image("mir")
                 .resizable()
@@ -73,6 +80,34 @@ extension CardView {
             Text("Balance: \(card.balance) Rub.")
                 .font(.system(size: 18, weight: .semibold))
         }
+    }
+
+    private var ellipseButton: some View {
+        Button {
+            actionSheetShow.toggle()
+        } label: {
+            Image(systemName: "ellipsis")
+                .font(.system(size: 28, weight: .bold))
+        }
+        .confirmationDialog(Titles.deleteCardTitle, isPresented: $actionSheetShow) {
+            Button(role: .destructive) {
+                vm.deleteItem(card)
+            } label: {
+                Text(Titles.deleteButtonTitle)
+            }
+
+        } message: {
+            Text(Titles.deleteTitle)
+        }
+
+    }
+}
+
+extension CardView {
+    private enum Titles {
+        static let deleteCardTitle = "Удаление..."
+        static let deleteButtonTitle = "Удалить"
+        static let deleteTitle = "Удалить карту?"
     }
 }
 
