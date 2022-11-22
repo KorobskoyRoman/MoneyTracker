@@ -61,24 +61,23 @@ struct MainView: View {
         }
     }
 
-    var addCardButton: some View {
+    private var addCardButton: some View {
         Button(action: {
             addCardFormIsPresented.toggle()
         }, label: {
-            let cornerRadius: CGFloat = 5
-
             Text(Titles.addButtonTitle)
-                .foregroundColor(.white)
-                .font(.system(size: 14, weight: .bold))
-                .padding(EdgeInsets(
-                    top: 8,
-                    leading: 12,
-                    bottom: 8,
-                    trailing: 12)
-                )
-                .background(Color.black)
-                .cornerRadius(cornerRadius)
+                .foregroundColor(Color(.systemBackground))
         })
+        .foregroundColor(.white)
+        .font(.system(size: 14, weight: .bold))
+        .padding(EdgeInsets(
+            top: 8,
+            leading: 12,
+            bottom: 8,
+            trailing: 12)
+        )
+        .background(Color(.label))
+        .cornerRadius(5)
     }
 
     private var addItemButton: some View {
