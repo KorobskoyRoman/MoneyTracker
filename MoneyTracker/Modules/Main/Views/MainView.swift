@@ -16,11 +16,11 @@ struct MainView: View {
     @Environment(\.managedObjectContext) private var viewContext
 
     @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Card.timestamp, ascending: true)],
+        sortDescriptors: [NSSortDescriptor(keyPath: \Card.timestamp, ascending: false)],
         animation: .default
     )
     private var cards: FetchedResults<Card>
-    //
+    // CoreData
 
     var body: some View {
         NavigationView {
