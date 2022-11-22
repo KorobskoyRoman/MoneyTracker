@@ -28,7 +28,7 @@ struct MainView: View {
                 if !cards.isEmpty {
                     TabView {
                         ForEach(cards) { card in
-                            CardView(card: card)
+                            CardView(card: card, vm: vm)
                                 .padding(.bottom, 40)
                         }
                     }
@@ -79,7 +79,7 @@ struct MainView: View {
         })
     }
 
-    var addItemButton: some View {
+    private var addItemButton: some View {
         Button("Add item") {
             withAnimation {
                 vm.addItem()
@@ -87,7 +87,7 @@ struct MainView: View {
         }
     }
 
-    var deleteAllItemsButton: some View {
+    private var deleteAllItemsButton: some View {
         Button("Delete all") {
             withAnimation {
                 vm.deleteAllItems(cards)
