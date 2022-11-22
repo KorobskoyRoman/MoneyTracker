@@ -60,4 +60,14 @@ final class CoreDataService: ObservableObject {
             print(error)
         }
     }
+
+    func deleteItem(_ card: Card) {
+        viewContext.delete(card)
+
+        do {
+            try viewContext.save()
+        } catch {
+            print(error)
+        }
+    }
 }

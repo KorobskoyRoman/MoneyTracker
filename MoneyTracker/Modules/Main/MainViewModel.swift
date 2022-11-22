@@ -19,6 +19,7 @@ protocol MainViewModelType {
                   timestamp: Date,
                   balance: String,
                   color: Color)
+    func deleteItem(_ card: Card)
 }
 
 final class MainViewModel: MainViewModelType  {
@@ -51,5 +52,9 @@ final class MainViewModel: MainViewModelType  {
                                  timestamp: timestamp,
                                  balance: balance,
                                  color: color)
+    }
+
+    func deleteItem(_ card: Card) {
+        coreDataService.deleteItem(card)
     }
 }
