@@ -11,6 +11,7 @@ struct AddCardView: View {
     @Environment(\.dismiss) var presentationMode
 
     var vm: MainViewModelType
+    let card: Card?
 
     @State private var name = ""
     @State private var cardNumber = "".applyPattern()
@@ -23,6 +24,29 @@ struct AddCardView: View {
     @State private var color = Color.blue
 
     private let currentYear = Calendar.current.component(.year, from: Date())
+
+    init(vm: MainViewModelType, card: Card? = nil) {
+        self.vm = vm
+        self.card = card
+
+        _name = State(initialValue: self.card?.name ?? "")
+        _cardNumber = State(initialValue: self.card?.number ?? "")
+        _cardType = State(initialValue: self.card?.type ?? "")
+
+        if let limit = card?.limit {
+            _limit = State(initialValue: String(limit))
+        }
+
+        _month = State(initialValue: Int(self.card?.expMonth ??
+                                         Int16(Calendar.current.component(.month, from: Date()))))
+        _year = State(initialValue: Int(self.card?.expYear ?? Int16(currentYear)))
+
+        if let data = self.card?.color,
+           let uiColor = UIColor.color(data: data) {
+            let c = Color(uiColor: uiColor)
+            _color = State(initialValue: c)
+        }
+    }
 
     var body: some View {
         NavigationView {
@@ -60,7 +84,7 @@ struct AddCardView: View {
                     ColorPicker(Titles.color, selection: $color)
                 }
             }
-            .navigationTitle(Titles.title)
+            .navigationTitle(card != nil ? card?.name ?? "N/A" : Titles.title)
             .navigationBarItems(leading: cancelButton,
                                 trailing: saveButton)
 

@@ -12,6 +12,8 @@ struct CardView: View {
     let vm: MainViewModelType
 
     @State private var actionSheetShow = false
+    @State private var showingEditForm = false
+    @State var refreshId = UUID()
     
     var body: some View {
         let corner: CGFloat = 8
@@ -60,6 +62,9 @@ struct CardView: View {
         .shadow(radius: shadow)
         .padding(.horizontal)
         .padding(.top, corner)
+        .fullScreenCover(isPresented: $showingEditForm) {
+            AddCardView(vm: vm, card: card)
+        }
     }
 }
 
@@ -71,7 +76,7 @@ extension CardView {
 
     private var balanceView: some View {
         HStack {
-            Image("mir")
+            Image(card.type ?? "mir")
                 .resizable()
                 .scaledToFit()
                 .frame(height: 33)
@@ -89,7 +94,13 @@ extension CardView {
             Image(systemName: "ellipsis")
                 .font(.system(size: 28, weight: .bold))
         }
-        .confirmationDialog(Titles.deleteCardTitle, isPresented: $actionSheetShow) {
+        .confirmationDialog(card.name ?? "N/A", isPresented: $actionSheetShow) {
+            Button {
+                showingEditForm.toggle()
+            } label: {
+                Text(Titles.editTitle)
+            }
+
             Button(role: .destructive) {
                 vm.deleteItem(card)
             } label: {
@@ -97,9 +108,8 @@ extension CardView {
             }
 
         } message: {
-            Text(Titles.deleteTitle)
+            Text(card.name ?? "N/A")
         }
-
     }
 }
 
@@ -108,6 +118,7 @@ extension CardView {
         static let deleteCardTitle = "Удаление..."
         static let deleteButtonTitle = "Удалить"
         static let deleteTitle = "Удалить карту?"
+        static let editTitle = "Изменить"
     }
 }
 
