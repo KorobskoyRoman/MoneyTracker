@@ -8,6 +8,7 @@
 import SwiftUI
 
 protocol MainViewModelType {
+    func getCountOfCards() -> Int
     func addItem()
     func deleteAllItems(_ cards: FetchedResults<Card>)
     func saveItem(card: Card?,
@@ -26,6 +27,10 @@ protocol MainViewModelType {
 final class MainViewModel: MainViewModelType  {
 
     private var coreDataService: CoreDataService = CoreDataService()
+
+    func getCountOfCards() -> Int {
+        coreDataService.getCount()
+    }
 
     func addItem() {
         coreDataService.addItem()

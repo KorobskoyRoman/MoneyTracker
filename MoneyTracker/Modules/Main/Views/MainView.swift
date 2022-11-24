@@ -11,6 +11,7 @@ struct MainView: View {
 
     var vm: MainViewModelType
     @State private var addCardFormIsPresented = false
+    @State private var addTransactionFormIsPresented = false
 
     // MARK: - CoreData
     @Environment(\.managedObjectContext) private var viewContext
@@ -35,6 +36,26 @@ struct MainView: View {
                     .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
                     .frame(height: 280)
                     .indexViewStyle(.page(backgroundDisplayMode: .always))
+
+                    Text(Titles.addTransaction)
+                    Button {
+                        addTransactionFormIsPresented.toggle()
+                    } label: {
+                        Text(Titles.addTransactionButton)
+                            .foregroundColor(.white)
+                            .font(.system(size: 14, weight: .bold))
+                            .padding(EdgeInsets(
+                                top: 8,
+                                leading: 12,
+                                bottom: 8,
+                                trailing: 12)
+                            )
+                            .background(Color(.label))
+                            .cornerRadius(5)
+                    }
+                    .fullScreenCover(isPresented: $addTransactionFormIsPresented) {
+                        TransactionView()
+                    }
                 } else {
                     noCardView
                 }
@@ -49,13 +70,9 @@ struct MainView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     addCardButton
                 }
-                
-                ToolbarItem(placement: .navigationBarLeading) {
-                    addItemButton
-                }
 
                 ToolbarItem(placement: .navigationBarLeading) {
-                    deleteAllItemsButton
+                    Text(Titles.countOfCards + "\(vm.getCountOfCards())")
                 }
             }
         }
@@ -78,22 +95,6 @@ struct MainView: View {
         )
         .background(Color(.label))
         .cornerRadius(5)
-    }
-
-    private var addItemButton: some View {
-        Button("Add item") {
-            withAnimation {
-                vm.addItem()
-            }
-        }
-    }
-
-    private var deleteAllItemsButton: some View {
-        Button("Delete all") {
-            withAnimation {
-                vm.deleteAllItems(cards)
-            }
-        }
     }
 
     private var noCardView: some View {
@@ -131,6 +132,9 @@ extension MainView {
         static let addButtonTitle = "+ Добавить"
         static let noCardsTitle = "Нет доступных для отображения карт. Хотите добавить?"
         static let addFirstCardTitle = "+ Добавить первую карту"
+        static let addTransaction = "Начните с добавления первой покупки!"
+        static let addTransactionButton = "+ Транзакция"
+        static let countOfCards = "Карт введено: "
     }
 }
 
