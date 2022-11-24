@@ -20,6 +20,7 @@
 		9CA6C7F02923F979006997B6 /* CoreDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA6C7EF2923F979006997B6 /* CoreDataService.swift */; };
 		9CA6C7F3292555D6006997B6 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA6C7F2292555D6006997B6 /* String+.swift */; };
 		9CA6C7F629256379006997B6 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA6C7F529256379006997B6 /* UIColor.swift */; };
+		9CA6C7F8292FCF69006997B6 /* TransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA6C7F7292FCF69006997B6 /* TransactionView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +38,7 @@
 		9CA6C7EF2923F979006997B6 /* CoreDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataService.swift; sourceTree = "<group>"; };
 		9CA6C7F2292555D6006997B6 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		9CA6C7F529256379006997B6 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
+		9CA6C7F7292FCF69006997B6 /* TransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +129,7 @@
 				9CA6C7E1291EAE7B006997B6 /* MainView.swift */,
 				9CA6C7E3291EB196006997B6 /* CardView.swift */,
 				9CA6C7E8291EBD44006997B6 /* AddCardView.swift */,
+				9CA6C7F7292FCF69006997B6 /* TransactionView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -233,6 +236,7 @@
 				9CA6C7F3292555D6006997B6 /* String+.swift in Sources */,
 				9CA6C7CF291EACEF006997B6 /* ContentView.swift in Sources */,
 				9CA6C7E2291EAE7B006997B6 /* MainView.swift in Sources */,
+				9CA6C7F8292FCF69006997B6 /* TransactionView.swift in Sources */,
 				9CA6C7E4291EB196006997B6 /* CardView.swift in Sources */,
 				9CA6C7CD291EACEF006997B6 /* MoneyTrackerApp.swift in Sources */,
 				9CA6C7F629256379006997B6 /* UIColor.swift in Sources */,
