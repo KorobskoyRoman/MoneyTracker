@@ -8,7 +8,9 @@
 import SwiftUI
 import PhotosUI
 
-struct TransactionView: View {
+struct NewTransactionView: View {
+    let vm: MainViewModelType
+
     @Environment(\.dismiss) var presentationMode
 
     @State private var name = ""
@@ -86,7 +88,10 @@ struct TransactionView: View {
 
     private var saveButton: some View {
         Button(action: {
-
+            vm.saveTransaction(name: name,
+                               timestamp: date,
+                               amount: amount,
+                               photoData: selectedImageData)
             presentationMode.callAsFunction()
         },
                label: {
@@ -96,7 +101,7 @@ struct TransactionView: View {
 
 }
 
-extension TransactionView {
+extension NewTransactionView {
     private enum Titles {
         static let title = "Добавить покупку"
         static let cancel = "Отмена"
@@ -113,6 +118,6 @@ extension TransactionView {
 
 struct TransactionView_Previews: PreviewProvider {
     static var previews: some View {
-        TransactionView()
+        NewTransactionView(vm: MainViewModel())
     }
 }
