@@ -13,6 +13,7 @@ struct MainView: View {
     @State private var addCardFormIsPresented = false
     @State private var addTransactionFormIsPresented = false
     @State private var cardSelectionIndex = 0
+    @State private var selectedCardHash = -1
 
     // MARK: - CoreData
     @Environment(\.managedObjectContext) private var viewContext
@@ -29,13 +30,12 @@ struct MainView: View {
         NavigationView {
             ScrollView {
                 if !cards.isEmpty {
-                    TabView(selection: $cardSelectionIndex) {
-                        ForEach(0..<cards.count, id: \.self) { i in
-                            let card = cards[i]
 
+                    TabView(selection: $selectedCardHash) {
+                        ForEach(cards) { card in
                             CardView(card: card, vm: vm)
                                 .padding(.bottom, 40)
-                                .tag(i)
+                                .tag(card.hash)
                         }
                     }
                     .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
@@ -57,15 +57,22 @@ struct MainView: View {
                             )
                             .background(Color(.label))
                             .cornerRadius(5)
+                            .onAppear {
+                                self.selectedCardHash = cards.first?.hash ?? -1
+                            }
                     }
                     .fullScreenCover(isPresented: $addTransactionFormIsPresented) {
-                        if let selectedCard = cards[cardSelectionIndex] {
-                            NewTransactionView(vm: vm, card: selectedCard)
+                        if let firstIndex = cards.firstIndex(where: {
+                            $0.hash == selectedCardHash }) {
+                            let card = self.cards[firstIndex]
+                            NewTransactionView(vm: vm, card: card)
                         }
                     }
 
-                    if let selectedCard = cards[cardSelectionIndex] {
-                        TransactionsView(vm: vm, card: selectedCard)
+                    if let firstIndex = cards.firstIndex(where: {
+                        $0.hash == selectedCardHash }) {
+                        let card = self.cards[firstIndex]
+                        TransactionsView(vm: vm, card: card)
                     }
                 } else {
                     noCardView
@@ -73,7 +80,9 @@ struct MainView: View {
 
                 Spacer()
                     .fullScreenCover(isPresented: $addCardFormIsPresented, onDismiss: nil) {
-                        AddCardView(vm: vm)
+                        AddCardView(vm: vm, card: nil) { card in
+                            self.selectedCardHash = card.hash
+                        }
                     }
             }
             .navigationTitle(Titles.navTitle)
