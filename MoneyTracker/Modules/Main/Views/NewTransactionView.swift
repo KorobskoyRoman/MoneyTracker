@@ -10,6 +10,7 @@ import PhotosUI
 
 struct NewTransactionView: View {
     let vm: MainViewModelType
+    let card: Card
 
     @Environment(\.dismiss) var presentationMode
 
@@ -91,7 +92,8 @@ struct NewTransactionView: View {
             vm.saveTransaction(name: name,
                                timestamp: date,
                                amount: amount,
-                               photoData: selectedImageData)
+                               photoData: selectedImageData,
+                               card: card)
             presentationMode.callAsFunction()
         },
                label: {
@@ -116,8 +118,8 @@ extension NewTransactionView {
     }
 }
 
-struct TransactionView_Previews: PreviewProvider {
-    static var previews: some View {
-        NewTransactionView(vm: MainViewModel())
-    }
-}
+//struct TransactionView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        NewTransactionView(vm: MainViewModel(), card: <#Card#>)
+//    }
+//}

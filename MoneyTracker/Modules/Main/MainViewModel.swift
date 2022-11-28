@@ -26,7 +26,8 @@ protocol MainViewModelType {
     func saveTransaction(name: String,
                          timestamp: Date,
                          amount: String,
-                         photoData: Data?)
+                         photoData: Data?,
+                         card: Card)
     func deleteTransaction(_ transaction: CardTransaction)
 }
 
@@ -82,11 +83,13 @@ final class MainViewModel: MainViewModelType  {
     func saveTransaction(name: String,
                          timestamp: Date,
                          amount: String,
-                         photoData: Data?) {
+                         photoData: Data?,
+                         card: Card) {
         coreDataService.saveTransaction(name: name,
                                         amount: amount,
                                         timestamp: timestamp,
-                                        photoData: photoData)
+                                        photoData: photoData,
+                                        card: card)
     }
 
     func deleteTransaction(_ transaction: CardTransaction) {

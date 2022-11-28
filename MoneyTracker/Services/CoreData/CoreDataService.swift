@@ -83,12 +83,15 @@ final class CoreDataService: ObservableObject {
     func saveTransaction(name: String,
                          amount: String,
                          timestamp: Date,
-                         photoData: Data?) {
+                         photoData: Data?,
+                         card: Card) {
         let transaction = CardTransaction(context: viewContext)
         transaction.name = name
         transaction.amount = Float(amount) ?? 0
         transaction.timestamp = timestamp
         transaction.photoData = photoData
+
+        transaction.card = card
 
         do {
             try viewContext.save()
