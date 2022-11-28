@@ -9,10 +9,24 @@ import SwiftUI
 
 struct TransactionsView: View {
     let vm: MainViewModelType
-    let transactions: FetchedResults<CardTransaction>
+    let card: Card
+
+    init(vm: MainViewModelType,
+         card: Card) {
+        self.vm = vm
+        self.card = card
+
+        fetchRequest = FetchRequest<CardTransaction>(
+            entity: CardTransaction.entity(),
+            sortDescriptors: [.init(key: "timestamp", ascending: false)],
+            predicate: .init(format: "card == %@", self.card)
+        )
+    }
+
+    var fetchRequest: FetchRequest<CardTransaction>
 
     var body: some View {
-        ForEach(transactions) { transaction in
+        ForEach(fetchRequest.wrappedValue) { transaction in
             TransactionView(transaction: transaction, vm: vm)
         }
     }
