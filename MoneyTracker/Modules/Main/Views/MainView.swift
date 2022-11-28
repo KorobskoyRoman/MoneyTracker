@@ -20,7 +20,15 @@ struct MainView: View {
         sortDescriptors: [NSSortDescriptor(keyPath: \Card.timestamp, ascending: false)],
         animation: .default
     )
+
     private var cards: FetchedResults<Card>
+
+    @FetchRequest(
+        sortDescriptors: [NSSortDescriptor(keyPath: \CardTransaction.timestamp, ascending: false)],
+        animation: .default
+    )
+
+    private var transactions: FetchedResults<CardTransaction>
     // CoreData
 
     var body: some View {
@@ -54,8 +62,10 @@ struct MainView: View {
                             .cornerRadius(5)
                     }
                     .fullScreenCover(isPresented: $addTransactionFormIsPresented) {
-                        TransactionView()
+                        NewTransactionView(vm: vm)
                     }
+
+                    TransactionsView(vm: vm, transactions: transactions)
                 } else {
                     noCardView
                 }
