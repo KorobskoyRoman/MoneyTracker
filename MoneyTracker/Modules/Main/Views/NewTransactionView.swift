@@ -56,7 +56,8 @@ struct NewTransactionView: View {
                         }
 
                     if let selectedImageData = selectedImageData,
-                       let uiImage = UIImage(data: selectedImageData) {
+                       let uiImage = UIImage(data: selectedImageData)?
+                        .resized(to: .init(width: 250, height: 250)) {
                         Image(uiImage: uiImage)
                             .resizable()
                             .scaledToFit()
