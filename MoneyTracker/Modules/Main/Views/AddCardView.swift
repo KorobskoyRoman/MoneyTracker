@@ -12,6 +12,7 @@ struct AddCardView: View {
 
     var vm: MainViewModelType
     let card: Card?
+    let isNewCard: ((Card) -> Void)?
 
     @State private var name = ""
     @State private var cardNumber = "".applyPattern()
@@ -25,9 +26,12 @@ struct AddCardView: View {
 
     private let currentYear = Calendar.current.component(.year, from: Date())
 
-    init(vm: MainViewModelType, card: Card? = nil) {
+    init(vm: MainViewModelType,
+         card: Card? = nil,
+         isNewCard: ((Card) -> Void)? = nil) {
         self.vm = vm
         self.card = card
+        self.isNewCard = isNewCard
 
         _name = State(initialValue: self.card?.name ?? "")
         _cardNumber = State(initialValue: self.card?.number ?? "")
@@ -113,6 +117,9 @@ struct AddCardView: View {
                         balance: balance,
                         color: color)
             presentationMode.callAsFunction()
+            if let newCard = card {
+                isNewCard?(newCard)
+            }
         },
                label: {
             Text(Titles.save)
