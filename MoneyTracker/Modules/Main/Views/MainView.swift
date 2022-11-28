@@ -12,6 +12,7 @@ struct MainView: View {
     var vm: MainViewModelType
     @State private var addCardFormIsPresented = false
     @State private var addTransactionFormIsPresented = false
+    @State private var cardSelectionIndex = 0
 
     // MARK: - CoreData
     @Environment(\.managedObjectContext) private var viewContext
@@ -22,23 +23,19 @@ struct MainView: View {
     )
 
     private var cards: FetchedResults<Card>
-
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \CardTransaction.timestamp, ascending: false)],
-        animation: .default
-    )
-
-    private var transactions: FetchedResults<CardTransaction>
     // CoreData
 
     var body: some View {
         NavigationView {
             ScrollView {
                 if !cards.isEmpty {
-                    TabView {
-                        ForEach(cards) { card in
+                    TabView(selection: $cardSelectionIndex) {
+                        ForEach(0..<cards.count, id: \.self) { i in
+                            let card = cards[i]
+
                             CardView(card: card, vm: vm)
                                 .padding(.bottom, 40)
+                                .tag(i)
                         }
                     }
                     .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
@@ -62,10 +59,14 @@ struct MainView: View {
                             .cornerRadius(5)
                     }
                     .fullScreenCover(isPresented: $addTransactionFormIsPresented) {
-                        NewTransactionView(vm: vm)
+                        if let selectedCard = cards[cardSelectionIndex] {
+                            NewTransactionView(vm: vm, card: selectedCard)
+                        }
                     }
 
-                    TransactionsView(vm: vm, transactions: transactions)
+                    if let selectedCard = cards[cardSelectionIndex] {
+                        TransactionsView(vm: vm, card: selectedCard)
+                    }
                 } else {
                     noCardView
                 }
