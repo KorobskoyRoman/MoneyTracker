@@ -11,6 +11,11 @@ import SwiftUI
 final class CoreDataService: ObservableObject {
     private let viewContext = PersistenceController.shared.container.viewContext
 
+    func getCount() -> Int {
+        viewContext.accessibilityElementCount()
+    }
+
+    // MARK: - Cards
     func addItem() {
         let card = Card(context: viewContext)
         card.timestamp = Date()
@@ -66,6 +71,37 @@ final class CoreDataService: ObservableObject {
 
     func deleteItem(_ card: Card) {
         viewContext.delete(card)
+
+        do {
+            try viewContext.save()
+        } catch {
+            print(error)
+        }
+    }
+
+    // MARK: - Transactions
+    func saveTransaction(name: String,
+                         amount: String,
+                         timestamp: Date,
+                         photoData: Data?,
+                         card: Card) {
+        let transaction = CardTransaction(context: viewContext)
+        transaction.name = name
+        transaction.amount = Float(amount) ?? 0
+        transaction.timestamp = timestamp
+        transaction.photoData = photoData
+
+        transaction.card = card
+
+        do {
+            try viewContext.save()
+        } catch {
+            print(error)
+        }
+    }
+
+    func deleteTransaction(_ transaction: CardTransaction) {
+        viewContext.delete(transaction)
 
         do {
             try viewContext.save()

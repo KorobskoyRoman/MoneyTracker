@@ -6,6 +6,8 @@
 //
 
 extension String {
+    static let defaultValue = "N/A"
+
     func applyPattern(pattern: String = "#### #### #### ####", replacmentCharacter: Character = "#") -> String {
         var pureNumber = self.replacingOccurrences( of: "[^0-9]", with: "", options: .regularExpression)
         for index in 0 ..< pattern.count {

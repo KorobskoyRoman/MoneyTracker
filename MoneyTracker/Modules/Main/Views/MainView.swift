@@ -11,6 +11,9 @@ struct MainView: View {
 
     var vm: MainViewModelType
     @State private var addCardFormIsPresented = false
+    @State private var addTransactionFormIsPresented = false
+    @State private var cardSelectionIndex = 0
+    @State private var selectedCardHash = -1
 
     // MARK: - CoreData
     @Environment(\.managedObjectContext) private var viewContext
@@ -19,6 +22,7 @@ struct MainView: View {
         sortDescriptors: [NSSortDescriptor(keyPath: \Card.timestamp, ascending: false)],
         animation: .default
     )
+
     private var cards: FetchedResults<Card>
     // CoreData
 
@@ -26,22 +30,59 @@ struct MainView: View {
         NavigationView {
             ScrollView {
                 if !cards.isEmpty {
-                    TabView {
+
+                    TabView(selection: $selectedCardHash) {
                         ForEach(cards) { card in
                             CardView(card: card, vm: vm)
                                 .padding(.bottom, 40)
+                                .tag(card.hash)
                         }
                     }
                     .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
                     .frame(height: 280)
                     .indexViewStyle(.page(backgroundDisplayMode: .always))
+
+                    Text(Titles.addTransaction)
+                    Button {
+                        addTransactionFormIsPresented.toggle()
+                    } label: {
+                        Text(Titles.addTransactionButton)
+                            .foregroundColor(.white)
+                            .font(.system(size: 14, weight: .bold))
+                            .padding(EdgeInsets(
+                                top: 8,
+                                leading: 12,
+                                bottom: 8,
+                                trailing: 12)
+                            )
+                            .background(Color(.label))
+                            .cornerRadius(5)
+                            .onAppear {
+                                self.selectedCardHash = cards.first?.hash ?? -1
+                            }
+                    }
+                    .fullScreenCover(isPresented: $addTransactionFormIsPresented) {
+                        if let firstIndex = cards.firstIndex(where: {
+                            $0.hash == selectedCardHash }) {
+                            let card = self.cards[firstIndex]
+                            NewTransactionView(vm: vm, card: card)
+                        }
+                    }
+
+                    if let firstIndex = cards.firstIndex(where: {
+                        $0.hash == selectedCardHash }) {
+                        let card = self.cards[firstIndex]
+                        TransactionsView(vm: vm, card: card)
+                    }
                 } else {
                     noCardView
                 }
 
                 Spacer()
                     .fullScreenCover(isPresented: $addCardFormIsPresented, onDismiss: nil) {
-                        AddCardView(vm: vm)
+                        AddCardView(vm: vm, card: nil) { card in
+                            self.selectedCardHash = card.hash
+                        }
                     }
             }
             .navigationTitle(Titles.navTitle)
@@ -49,13 +90,9 @@ struct MainView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     addCardButton
                 }
-                
-                ToolbarItem(placement: .navigationBarLeading) {
-                    addItemButton
-                }
 
                 ToolbarItem(placement: .navigationBarLeading) {
-                    deleteAllItemsButton
+                    Text(Titles.countOfCards + "\(vm.getCountOfCards())")
                 }
             }
         }
@@ -78,22 +115,6 @@ struct MainView: View {
         )
         .background(Color(.label))
         .cornerRadius(5)
-    }
-
-    private var addItemButton: some View {
-        Button("Add item") {
-            withAnimation {
-                vm.addItem()
-            }
-        }
-    }
-
-    private var deleteAllItemsButton: some View {
-        Button("Delete all") {
-            withAnimation {
-                vm.deleteAllItems(cards)
-            }
-        }
     }
 
     private var noCardView: some View {
@@ -131,6 +152,9 @@ extension MainView {
         static let addButtonTitle = "+ Добавить"
         static let noCardsTitle = "Нет доступных для отображения карт. Хотите добавить?"
         static let addFirstCardTitle = "+ Добавить первую карту"
+        static let addTransaction = "Начните с добавления первой покупки!"
+        static let addTransactionButton = "+ Транзакция"
+        static let countOfCards = "Карт введено: "
     }
 }
 

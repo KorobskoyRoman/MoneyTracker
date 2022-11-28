@@ -8,6 +8,8 @@
 import SwiftUI
 
 protocol MainViewModelType {
+    var dateFormatter: DateFormatter { get }
+    func getCountOfCards() -> Int
     func addItem()
     func deleteAllItems(_ cards: FetchedResults<Card>)
     func saveItem(card: Card?,
@@ -21,11 +23,28 @@ protocol MainViewModelType {
                   balance: String,
                   color: Color)
     func deleteItem(_ card: Card)
+    func saveTransaction(name: String,
+                         timestamp: Date,
+                         amount: String,
+                         photoData: Data?,
+                         card: Card)
+    func deleteTransaction(_ transaction: CardTransaction)
 }
 
 final class MainViewModel: MainViewModelType  {
 
     private var coreDataService: CoreDataService = CoreDataService()
+
+    var dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .none
+        return formatter
+    }()
+
+    func getCountOfCards() -> Int {
+        coreDataService.getCount()
+    }
 
     func addItem() {
         coreDataService.addItem()
@@ -59,5 +78,21 @@ final class MainViewModel: MainViewModelType  {
 
     func deleteItem(_ card: Card) {
         coreDataService.deleteItem(card)
+    }
+
+    func saveTransaction(name: String,
+                         timestamp: Date,
+                         amount: String,
+                         photoData: Data?,
+                         card: Card) {
+        coreDataService.saveTransaction(name: name,
+                                        amount: amount,
+                                        timestamp: timestamp,
+                                        photoData: photoData,
+                                        card: card)
+    }
+
+    func deleteTransaction(_ transaction: CardTransaction) {
+        coreDataService.deleteTransaction(transaction)
     }
 }
