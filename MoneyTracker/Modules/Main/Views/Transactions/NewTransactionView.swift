@@ -35,7 +35,7 @@ struct NewTransactionView: View {
 
                 Section(Titles.category) {
                     NavigationLink {
-
+                        CategoriesListView(vm: vm)
                     } label: {
                         Text(Titles.categoryType)
                     }
