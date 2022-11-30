@@ -31,13 +31,14 @@ struct NewTransactionView: View {
                     DatePicker(Titles.date,
                                selection: $date,
                                displayedComponents: .date)
+                }
 
+                Section(Titles.category) {
                     NavigationLink {
 
                     } label: {
-                        Text(Titles.type)
+                        Text(Titles.categoryType)
                     }
-
                 }
 
                 Section(Titles.phoro) {
@@ -116,6 +117,8 @@ extension NewTransactionView {
         static let date = "Дата"
         static let type = "Тип"
         static let select = "Выбрать фото"
+        static let category = "Категории"
+        static let categoryType = "Выбрать категорию"
     }
 }
 
