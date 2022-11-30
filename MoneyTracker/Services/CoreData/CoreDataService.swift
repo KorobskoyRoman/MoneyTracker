@@ -105,4 +105,28 @@ final class CoreDataService: ObservableObject {
             print(error)
         }
     }
+
+    // MARK: - Create transaction category
+    func createCategory(name: String, color: Data) {
+        let category = TransactionCategory(context: viewContext)
+        category.name = name
+        category.colorData = color
+        category.timestamp = Date()
+
+        do {
+            try viewContext.save()
+        } catch {
+            print(error)
+        }
+    }
+
+    func deleteCategory(_ cat: TransactionCategory) {
+        viewContext.delete(cat)
+
+        do {
+            try viewContext.save()
+        } catch {
+            print(error)
+        }
+    }
 }

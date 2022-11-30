@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9C1011212937DFA900E7BD13 /* CategoriesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1011202937DFA900E7BD13 /* CategoriesListView.swift */; };
 		9CA6C7CD291EACEF006997B6 /* MoneyTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA6C7CC291EACEF006997B6 /* MoneyTrackerApp.swift */; };
 		9CA6C7CF291EACEF006997B6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA6C7CE291EACEF006997B6 /* ContentView.swift */; };
 		9CA6C7D1291EACF2006997B6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9CA6C7D0291EACF2006997B6 /* Assets.xcassets */; };
@@ -26,6 +27,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9C1011202937DFA900E7BD13 /* CategoriesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesListView.swift; sourceTree = "<group>"; };
 		9CA6C7C9291EACEF006997B6 /* MoneyTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoneyTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CA6C7CC291EACEF006997B6 /* MoneyTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyTrackerApp.swift; sourceTree = "<group>"; };
 		9CA6C7CE291EACEF006997B6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -56,6 +58,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9C10111E2937DF5600E7BD13 /* MainView */ = {
+			isa = PBXGroup;
+			children = (
+				9CA6C7E1291EAE7B006997B6 /* MainView.swift */,
+			);
+			path = MainView;
+			sourceTree = "<group>";
+		};
+		9C10111F2937DF7F00E7BD13 /* Transactions */ = {
+			isa = PBXGroup;
+			children = (
+				9CA6C7F7292FCF69006997B6 /* NewTransactionView.swift */,
+				9CADC6EA293519C400D81A41 /* TransactionsView.swift */,
+				9C1011202937DFA900E7BD13 /* CategoriesListView.swift */,
+			);
+			path = Transactions;
+			sourceTree = "<group>";
+		};
 		9CA6C7C0291EACEF006997B6 = {
 			isa = PBXGroup;
 			children = (
@@ -130,11 +150,10 @@
 		9CA6C7ED2923F858006997B6 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				9CA6C7E1291EAE7B006997B6 /* MainView.swift */,
+				9C10111E2937DF5600E7BD13 /* MainView */,
 				9CA6C7E3291EB196006997B6 /* CardView.swift */,
 				9CA6C7E8291EBD44006997B6 /* AddCardView.swift */,
-				9CA6C7F7292FCF69006997B6 /* NewTransactionView.swift */,
-				9CADC6EA293519C400D81A41 /* TransactionsView.swift */,
+				9C10111F2937DF7F00E7BD13 /* Transactions */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -251,6 +270,7 @@
 				9CA6C7E9291EBD44006997B6 /* AddCardView.swift in Sources */,
 				9CA6C7F02923F979006997B6 /* CoreDataService.swift in Sources */,
 				9CA6C7EB2923F705006997B6 /* MainViewModel.swift in Sources */,
+				9C1011212937DFA900E7BD13 /* CategoriesListView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
