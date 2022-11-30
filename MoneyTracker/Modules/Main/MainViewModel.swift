@@ -28,6 +28,8 @@ protocol MainViewModelType {
                          photoData: Data?,
                          card: Card)
     func deleteTransaction(_ transaction: CardTransaction)
+    func createCategory(name: String, color: Color)
+    func deleteCategory(_ cat: TransactionCategory)
 }
 
 final class MainViewModel: MainViewModelType  {
@@ -89,5 +91,15 @@ final class MainViewModel: MainViewModelType  {
 
     func deleteTransaction(_ transaction: CardTransaction) {
         coreDataService.deleteTransaction(transaction)
+    }
+
+    func createCategory(name: String, color: Color) {
+        if let colorData = UIColor(color).encode() {
+            coreDataService.createCategory(name: name, color: colorData)
+        }
+    }
+
+    func deleteCategory(_ cat: TransactionCategory) {
+        coreDataService.deleteCategory(cat)
     }
 }
