@@ -16,8 +16,6 @@ struct MainView: View {
     @State private var selectedCardHash = -1
 
     // MARK: - CoreData
-    @Environment(\.managedObjectContext) private var viewContext
-
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Card.timestamp, ascending: false)],
         animation: .default
