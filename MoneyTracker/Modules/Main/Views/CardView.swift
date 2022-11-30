@@ -76,7 +76,8 @@ extension CardView {
 
     private var balanceView: some View {
         HStack {
-            Image(card.type ?? "mir")
+            let cardImg = card.type == "" ? "Visa" : card.type
+            Image(cardImg ?? "Visa")
                 .resizable()
                 .scaledToFit()
                 .frame(height: 33)
