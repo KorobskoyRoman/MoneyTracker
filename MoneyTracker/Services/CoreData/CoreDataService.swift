@@ -11,10 +11,6 @@ import SwiftUI
 final class CoreDataService: ObservableObject {
     private let viewContext = PersistenceController.shared.container.viewContext
 
-    func getCount() -> Int {
-        viewContext.accessibilityElementCount()
-    }
-
     // MARK: - Cards
     func addItem() {
         let card = Card(context: viewContext)

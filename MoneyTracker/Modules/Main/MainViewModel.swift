@@ -9,7 +9,6 @@ import SwiftUI
 
 protocol MainViewModelType {
     var dateFormatter: DateFormatter { get }
-    func getCountOfCards() -> Int
     func addItem()
     func deleteAllItems(_ cards: FetchedResults<Card>)
     func saveItem(card: Card?,
@@ -41,10 +40,6 @@ final class MainViewModel: MainViewModelType  {
         formatter.timeStyle = .none
         return formatter
     }()
-
-    func getCountOfCards() -> Int {
-        coreDataService.getCount()
-    }
 
     func addItem() {
         coreDataService.addItem()

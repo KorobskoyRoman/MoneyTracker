@@ -92,7 +92,7 @@ struct MainView: View {
                 }
 
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Text(Titles.countOfCards + "\(vm.getCountOfCards())")
+                    Text(Titles.countOfCards + "\(cards.count)")
                 }
             }
         }
