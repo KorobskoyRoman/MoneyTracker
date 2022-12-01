@@ -12,6 +12,7 @@ struct CategoriesListView: View {
 
     @State private var name = ""
     @State private var color = Color.red
+    @Binding var selectedCategories: Set<TransactionCategory>
 
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \TransactionCategory.timestamp,
@@ -25,16 +26,29 @@ struct CategoriesListView: View {
         Form {
             Section(Titles.selectCategory) {
                 ForEach(categories) { cat in
-                    HStack(spacing: 12) {
-                        if let data = cat.colorData,
-                           let uiColor = UIColor.color(data: data) {
-                            let color = Color(uiColor)
-                            Spacer()
-                                .frame(width: 30, height: 10)
-                                .background(color)
+                    Button {
+                        if selectedCategories.contains(cat) {
+                            selectedCategories.remove(cat)
+                        } else {
+                            selectedCategories.insert(cat)
                         }
-                        Text(cat.name ?? "")
-                        Spacer()
+                    } label: {
+                        HStack(spacing: 12) {
+                            if let data = cat.colorData,
+                               let uiColor = UIColor.color(data: data) {
+                                let color = Color(uiColor)
+                                Spacer()
+                                    .frame(width: 30, height: 10)
+                                    .background(color)
+                            }
+                            Text(cat.name ?? "")
+                                .foregroundColor(Color(.label))
+                            Spacer()
+
+                            if selectedCategories.contains(cat) {
+                                Image(systemName: "checkmark")
+                            }
+                        }
                     }
                 }
                 .onDelete { indx in
@@ -86,7 +100,7 @@ extension CategoriesListView {
 
 struct CategoriesListView_Previews: PreviewProvider {
     static var previews: some View {
-        CategoriesListView(vm: MainViewModel())
+        CategoriesListView(vm: MainViewModel(), selectedCategories: .constant(Set<TransactionCategory>()))
             .environment(\.managedObjectContext,
                           PersistenceController.shared.container.viewContext)
     }
