@@ -18,6 +18,7 @@ struct NewTransactionView: View {
     @State private var amount = ""
     @State private var date = Date()
     @State private var presentedPhotoPicker = false
+    @State private var selectedCategories = Set<TransactionCategory>()
 
     @State private var selectedItem: PhotosPickerItem? = nil
     @State private var selectedImageData: Data? = nil
@@ -35,9 +36,27 @@ struct NewTransactionView: View {
 
                 Section(Titles.category) {
                     NavigationLink {
-                        CategoriesListView(vm: vm)
+                        CategoriesListView(vm: vm, selectedCategories: $selectedCategories)
                     } label: {
                         Text(Titles.categoryType)
+                    }
+
+                    let sortedCats = Array(selectedCategories).sorted(by: {
+                        $0.timestamp?.compare($1.timestamp ?? Date()) == .orderedDescending
+                    })
+
+                    ForEach(sortedCats) { cat in
+                        HStack(spacing: 12) {
+                            if let data = cat.colorData,
+                               let uiColor = UIColor.color(data: data) {
+                                let color = Color(uiColor)
+                                Spacer()
+                                    .frame(width: 30, height: 10)
+                                    .background(color)
+                            }
+
+                            Text(cat.name ?? "")
+                        }
                     }
                 }
 
