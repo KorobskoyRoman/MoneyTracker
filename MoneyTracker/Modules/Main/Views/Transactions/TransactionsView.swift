@@ -11,6 +11,10 @@ struct TransactionsView: View {
     let vm: MainViewModelType
     let card: Card
 
+    @State private var addTransactionFormIsPresented = false
+    @State private var filterSheetIsPresented = false
+    @State private var selectedCategories = Set<TransactionCategory>()
+
     init(vm: MainViewModelType,
          card: Card) {
         self.vm = vm
@@ -26,8 +30,102 @@ struct TransactionsView: View {
     var fetchRequest: FetchRequest<CardTransaction>
 
     var body: some View {
-        ForEach(fetchRequest.wrappedValue) { transaction in
-            TransactionView(transaction: transaction, vm: vm)
+        VStack {
+            if fetchRequest.wrappedValue.isEmpty {
+                Text(Titles.addTransaction)
+                Button {
+                    addTransactionFormIsPresented.toggle()
+                } label: {
+                    Text(Titles.addTransactionButton)
+                        .foregroundColor(.white)
+                        .font(.system(size: 14, weight: .bold))
+                        .padding(EdgeInsets(
+                            top: 8,
+                            leading: 12,
+                            bottom: 8,
+                            trailing: 12)
+                        )
+                        .background(Color(.label))
+                        .cornerRadius(5)
+                }
+            } else {
+                HStack {
+                    Spacer()
+                    addTransactionButton
+                    filterButton
+                        .fullScreenCover(isPresented: $filterSheetIsPresented) {
+                            FilterSheet(vm: vm, didSaveFilters: { categories in
+                                selectedCategories = categories
+                            }, selectedCategories: selectedCategories)
+                        }
+                }
+                .padding(.horizontal)
+
+                ForEach(filterTransactions(selectedCategories)) { transaction in
+                    TransactionView(transaction: transaction, vm: vm)
+                }
+            }
+        }
+        .fullScreenCover(isPresented: $addTransactionFormIsPresented) {
+            NewTransactionView(vm: vm, card: card)
+        }
+    }
+
+    private func filterTransactions(_ selectedCategories: Set<TransactionCategory>) -> [CardTransaction] {
+        if selectedCategories.isEmpty {
+            return Array(fetchRequest.wrappedValue)
+        }
+
+        return fetchRequest.wrappedValue.filter { transaction in
+            var filtered = false
+
+            if let categories = transaction.categories as? Set<TransactionCategory> {
+                categories.forEach({ cat in
+                    if selectedCategories.contains(cat) {
+                        filtered = true
+                    }
+                })
+            }
+            return filtered
+        }
+    }
+
+    private var addTransactionButton: some View {
+        Button {
+            addTransactionFormIsPresented.toggle()
+        } label: {
+            Text(Titles.addTransactionButton)
+                .foregroundColor(.white)
+                .font(.system(size: 14, weight: .bold))
+                .padding(EdgeInsets(
+                    top: 8,
+                    leading: 12,
+                    bottom: 8,
+                    trailing: 12)
+                )
+                .background(Color(.label))
+                .cornerRadius(5)
+        }
+    }
+
+    private var filterButton: some View {
+        Button {
+            filterSheetIsPresented.toggle()
+        } label: {
+            HStack {
+                Image(systemName: "line.horizontal.3.decrease.circle")
+                Text(Titles.filterButton)
+            }
+            .foregroundColor(.white)
+            .font(.system(size: 14, weight: .bold))
+            .padding(EdgeInsets(
+                top: 8,
+                leading: 12,
+                bottom: 8,
+                trailing: 12)
+            )
+            .background(Color(.label))
+            .cornerRadius(5)
         }
     }
 }
