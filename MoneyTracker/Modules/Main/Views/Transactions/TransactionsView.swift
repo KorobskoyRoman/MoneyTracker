@@ -123,8 +123,36 @@ extension TransactionView {
     }
 }
 
-//struct TransactionsView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        TransactionsView()
-//    }
-//}
+extension TransactionsView {
+    private enum Titles {
+        static let navTitle = "Ваши карты"
+        static let addButtonTitle = "+ Добавить"
+        static let noCardsTitle = "Нет доступных для отображения карт. Хотите добавить?"
+        static let addFirstCardTitle = "+ Добавить первую карту"
+        static let addTransaction = "Начните с добавления первой покупки!"
+        static let addTransactionButton = "+ Транзакция"
+        static let countOfCards = "Карт введено: "
+        static let filterButton = "Фильтры"
+    }
+}
+
+
+struct TransactionsView_Previews: PreviewProvider {
+    static let firstCard: Card? = {
+        let context = PersistenceController.shared.container.viewContext
+        let request = Card.fetchRequest()
+        request.sortDescriptors = [.init(key: "timestamp", ascending: false)]
+        return try? context.fetch(request).first
+    }()
+
+    static var previews: some View {
+        let context = PersistenceController.shared.container.viewContext
+        ScrollView {
+            if let card = firstCard {
+                TransactionsView(vm: MainViewModel(), card: card)
+            }
+
+        }
+        .environment(\.managedObjectContext, context)
+    }
+}
