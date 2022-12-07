@@ -29,6 +29,7 @@ struct NewTransactionView: View {
                 Section(Titles.info) {
                     TextField(Titles.name, text: $name)
                     TextField(Titles.amount, text: $amount)
+                        .keyboardType(.numberPad)
                     DatePicker(Titles.date,
                                selection: $date,
                                displayedComponents: .date)
@@ -41,9 +42,7 @@ struct NewTransactionView: View {
                         Text(Titles.categoryType)
                     }
 
-                    let sortedCats = Array(selectedCategories).sorted(by: {
-                        $0.timestamp?.compare($1.timestamp ?? Date()) == .orderedDescending
-                    })
+                    let sortedCats = vm.sortCats(selectedCategories)
 
                     ForEach(sortedCats) { cat in
                         HStack(spacing: 12) {
@@ -94,7 +93,6 @@ struct NewTransactionView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     saveButton
                 }
-
             }
         }
     }
@@ -110,11 +108,14 @@ struct NewTransactionView: View {
 
     private var saveButton: some View {
         Button(action: {
-            vm.saveTransaction(name: name,
-                               timestamp: date,
-                               amount: amount,
-                               photoData: selectedImageData,
-                               card: card)
+            vm.saveTransaction(
+                name: name,
+                timestamp: date,
+                amount: amount,
+                photoData: selectedImageData,
+                card: card,
+                selectedCategories: selectedCategories
+            )
             presentationMode.callAsFunction()
         },
                label: {

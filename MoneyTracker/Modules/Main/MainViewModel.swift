@@ -54,6 +54,21 @@ final class MainViewModel: MainViewModelType  {
         coreDataService.deleteAllItems(cards)
     }
 
+    func getColor(cat: TransactionCategory) -> Color? {
+        if let data = cat.colorData,
+           let uiColor = UIColor.color(data: data) {
+            let color = Color(uiColor)
+            return color
+        }
+        return nil
+    }
+
+    func sortCats(_ cats: Set<TransactionCategory>) -> [TransactionCategory] {
+        return Array(cats).sorted(by: {
+            $0.timestamp?.compare($1.timestamp ?? Date()) == .orderedDescending
+        })
+    }
+
     func saveItem(card: Card?,
                   name: String,
                   number: String,
@@ -84,12 +99,16 @@ final class MainViewModel: MainViewModelType  {
                          timestamp: Date,
                          amount: String,
                          photoData: Data?,
-                         card: Card) {
-        coreDataService.saveTransaction(name: name,
-                                        amount: amount,
-                                        timestamp: timestamp,
-                                        photoData: photoData,
-                                        card: card)
+                         card: Card,
+                         selectedCategories: Set<TransactionCategory>) {
+        coreDataService.saveTransaction(
+            name: name,
+            amount: amount,
+            timestamp: timestamp,
+            photoData: photoData,
+            card: card,
+            selectedCategories: selectedCategories
+        )
     }
 
     func deleteTransaction(_ transaction: CardTransaction) {

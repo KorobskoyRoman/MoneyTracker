@@ -34,9 +34,7 @@ struct CategoriesListView: View {
                         }
                     } label: {
                         HStack(spacing: 12) {
-                            if let data = cat.colorData,
-                               let uiColor = UIColor.color(data: data) {
-                                let color = Color(uiColor)
+                            if let color = vm.getColor(cat: cat) {
                                 Spacer()
                                     .frame(width: 30, height: 10)
                                     .background(color)
