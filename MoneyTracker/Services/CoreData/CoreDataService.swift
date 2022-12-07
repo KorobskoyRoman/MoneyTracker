@@ -131,4 +131,18 @@ final class CoreDataService: ObservableObject {
             print(error)
         }
     }
+
+    func prefetchCategory() -> TransactionCategory? {
+        let request = TransactionCategory.fetchRequest()
+        request.sortDescriptors = [.init(key: "timestamp",
+                                         ascending: false)]
+
+        do {
+            let result =  try viewContext.fetch(request).first
+            return result
+        } catch {
+            print(error)
+            return nil
+        }
+    }
 }

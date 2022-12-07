@@ -33,6 +33,7 @@ protocol MainViewModelType {
     func deleteCategory(_ cat: TransactionCategory)
     func getColor(cat: TransactionCategory) -> Color?
     func sortCats(_ cats: Set<TransactionCategory>) -> [TransactionCategory]
+    func prefetchCategory() -> TransactionCategory?
 }
 
 final class MainViewModel: MainViewModelType  {
@@ -123,5 +124,9 @@ final class MainViewModel: MainViewModelType  {
 
     func deleteCategory(_ cat: TransactionCategory) {
         coreDataService.deleteCategory(cat)
+    }
+
+    func prefetchCategory() -> TransactionCategory? {
+        return coreDataService.prefetchCategory()
     }
 }

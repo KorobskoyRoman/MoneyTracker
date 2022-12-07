@@ -12,6 +12,14 @@ struct NewTransactionView: View {
     let vm: MainViewModelType
     let card: Card
 
+    init(vm: MainViewModelType, card: Card) {
+        self.card = card
+        self.vm = vm
+
+        guard let first = vm.prefetchCategory() else { return }
+        self._selectedCategories = .init(initialValue: [first])
+    }
+
     @Environment(\.dismiss) var presentationMode
 
     @State private var name = ""

@@ -51,7 +51,9 @@ struct CategoriesListView: View {
                 }
                 .onDelete { indx in
                     indx.forEach { i in
-                        vm.deleteCategory(categories[i])
+                        let category = categories[i]
+                        selectedCategories.remove(category)
+                        vm.deleteCategory(category)
                     }
                 }
             }
