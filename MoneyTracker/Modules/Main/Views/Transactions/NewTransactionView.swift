@@ -12,12 +12,21 @@ struct NewTransactionView: View {
     let vm: MainViewModelType
     let card: Card
 
+    init(vm: MainViewModelType, card: Card) {
+        self.card = card
+        self.vm = vm
+
+        guard let first = vm.prefetchCategory() else { return }
+        self._selectedCategories = .init(initialValue: [first])
+    }
+
     @Environment(\.dismiss) var presentationMode
 
     @State private var name = ""
     @State private var amount = ""
     @State private var date = Date()
     @State private var presentedPhotoPicker = false
+    @State private var selectedCategories = Set<TransactionCategory>()
 
     @State private var selectedItem: PhotosPickerItem? = nil
     @State private var selectedImageData: Data? = nil
@@ -28,16 +37,34 @@ struct NewTransactionView: View {
                 Section(Titles.info) {
                     TextField(Titles.name, text: $name)
                     TextField(Titles.amount, text: $amount)
+                        .keyboardType(.numberPad)
                     DatePicker(Titles.date,
                                selection: $date,
                                displayedComponents: .date)
+                }
 
+                Section(Titles.category) {
                     NavigationLink {
-
+                        CategoriesListView(vm: vm, selectedCategories: $selectedCategories)
                     } label: {
-                        Text(Titles.type)
+                        Text(Titles.categoryType)
                     }
 
+                    let sortedCats = vm.sortCats(selectedCategories)
+
+                    ForEach(sortedCats) { cat in
+                        HStack(spacing: 12) {
+                            if let data = cat.colorData,
+                               let uiColor = UIColor.color(data: data) {
+                                let color = Color(uiColor)
+                                Spacer()
+                                    .frame(width: 30, height: 10)
+                                    .background(color)
+                            }
+
+                            Text(cat.name ?? "")
+                        }
+                    }
                 }
 
                 Section(Titles.phoro) {
@@ -74,7 +101,6 @@ struct NewTransactionView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     saveButton
                 }
-
             }
         }
     }
@@ -90,11 +116,14 @@ struct NewTransactionView: View {
 
     private var saveButton: some View {
         Button(action: {
-            vm.saveTransaction(name: name,
-                               timestamp: date,
-                               amount: amount,
-                               photoData: selectedImageData,
-                               card: card)
+            vm.saveTransaction(
+                name: name,
+                timestamp: date,
+                amount: amount,
+                photoData: selectedImageData,
+                card: card,
+                selectedCategories: selectedCategories
+            )
             presentationMode.callAsFunction()
         },
                label: {
@@ -116,6 +145,8 @@ extension NewTransactionView {
         static let date = "Дата"
         static let type = "Тип"
         static let select = "Выбрать фото"
+        static let category = "Категории"
+        static let categoryType = "Выбрать категорию"
     }
 }
 

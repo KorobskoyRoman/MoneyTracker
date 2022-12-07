@@ -11,10 +11,6 @@ import SwiftUI
 final class CoreDataService: ObservableObject {
     private let viewContext = PersistenceController.shared.container.viewContext
 
-    func getCount() -> Int {
-        viewContext.accessibilityElementCount()
-    }
-
     // MARK: - Cards
     func addItem() {
         let card = Card(context: viewContext)
@@ -84,7 +80,8 @@ final class CoreDataService: ObservableObject {
                          amount: String,
                          timestamp: Date,
                          photoData: Data?,
-                         card: Card) {
+                         card: Card,
+                         selectedCategories: Set<TransactionCategory>) {
         let transaction = CardTransaction(context: viewContext)
         transaction.name = name
         transaction.amount = Float(amount) ?? 0
@@ -92,6 +89,7 @@ final class CoreDataService: ObservableObject {
         transaction.photoData = photoData
 
         transaction.card = card
+        transaction.categories = selectedCategories as NSSet
 
         do {
             try viewContext.save()
@@ -107,6 +105,44 @@ final class CoreDataService: ObservableObject {
             try viewContext.save()
         } catch {
             print(error)
+        }
+    }
+
+    // MARK: - Create transaction category
+    func createCategory(name: String, color: Data) {
+        let category = TransactionCategory(context: viewContext)
+        category.name = name
+        category.colorData = color
+        category.timestamp = Date()
+
+        do {
+            try viewContext.save()
+        } catch {
+            print(error)
+        }
+    }
+
+    func deleteCategory(_ cat: TransactionCategory) {
+        viewContext.delete(cat)
+
+        do {
+            try viewContext.save()
+        } catch {
+            print(error)
+        }
+    }
+
+    func prefetchCategory() -> TransactionCategory? {
+        let request = TransactionCategory.fetchRequest()
+        request.sortDescriptors = [.init(key: "timestamp",
+                                         ascending: false)]
+
+        do {
+            let result =  try viewContext.fetch(request).first
+            return result
+        } catch {
+            print(error)
+            return nil
         }
     }
 }

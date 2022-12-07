@@ -10,14 +10,13 @@ import SwiftUI
 struct MainView: View {
 
     var vm: MainViewModelType
+
     @State private var addCardFormIsPresented = false
     @State private var addTransactionFormIsPresented = false
     @State private var cardSelectionIndex = 0
     @State private var selectedCardHash = -1
 
     // MARK: - CoreData
-    @Environment(\.managedObjectContext) private var viewContext
-
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Card.timestamp, ascending: false)],
         animation: .default
@@ -41,32 +40,8 @@ struct MainView: View {
                     .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
                     .frame(height: 280)
                     .indexViewStyle(.page(backgroundDisplayMode: .always))
-
-                    Text(Titles.addTransaction)
-                    Button {
-                        addTransactionFormIsPresented.toggle()
-                    } label: {
-                        Text(Titles.addTransactionButton)
-                            .foregroundColor(.white)
-                            .font(.system(size: 14, weight: .bold))
-                            .padding(EdgeInsets(
-                                top: 8,
-                                leading: 12,
-                                bottom: 8,
-                                trailing: 12)
-                            )
-                            .background(Color(.label))
-                            .cornerRadius(5)
-                            .onAppear {
-                                self.selectedCardHash = cards.first?.hash ?? -1
-                            }
-                    }
-                    .fullScreenCover(isPresented: $addTransactionFormIsPresented) {
-                        if let firstIndex = cards.firstIndex(where: {
-                            $0.hash == selectedCardHash }) {
-                            let card = self.cards[firstIndex]
-                            NewTransactionView(vm: vm, card: card)
-                        }
+                    .onAppear {
+                        self.selectedCardHash = cards.first?.hash ?? -1
                     }
 
                     if let firstIndex = cards.firstIndex(where: {
@@ -92,7 +67,7 @@ struct MainView: View {
                 }
 
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Text(Titles.countOfCards + "\(vm.getCountOfCards())")
+                    Text(Titles.countOfCards + "\(cards.count)")
                 }
             }
         }

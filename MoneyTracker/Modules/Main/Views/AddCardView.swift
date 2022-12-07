@@ -61,7 +61,9 @@ struct AddCardView: View {
                         .keyboardType(.numberPad)
                     TextField(Titles.limit, text: $limit)
                         .keyboardType(.numberPad)
+                }
 
+                Section(Titles.cardType) {
                     Picker(Titles.type, selection: $cardType) {
                         ForEach(["Visa", "MasterCard", "Мир"],
                                 id: \.self) { cardType in
@@ -141,6 +143,7 @@ extension AddCardView {
         static let color = "Цвет"
         static let month = "Месяц"
         static let year = "Год"
+        static let cardType = "Тип карты"
     }
 }
 

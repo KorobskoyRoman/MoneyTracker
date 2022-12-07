@@ -6,9 +6,11 @@
 //
 
 import CoreData
+import UIKit
 
 struct PersistenceController {
     static let shared = PersistenceController()
+    static let hasSeedDataKey = "hasSeedDataKey"
 
     static var preview: PersistenceController = {
         let result = PersistenceController(inMemory: true)
@@ -52,5 +54,25 @@ struct PersistenceController {
             }
         })
         container.viewContext.automaticallyMergesChangesFromParent = true
+
+        seedInitialData()
+    }
+
+    private func seedInitialData() {
+        guard UserDefaults.standard.bool(forKey: Self.hasSeedDataKey) else {
+            let context = container.viewContext
+            let cat = TransactionCategory(context: context)
+            cat.name = "Продукты питания"
+            cat.colorData = UIColor.blue.encode()
+            cat.timestamp = Date()
+
+            do {
+                try context.save()
+                UserDefaults.standard.set(true, forKey: Self.hasSeedDataKey)
+            } catch {
+                print(error)
+            }
+            return
+        }
     }
 }

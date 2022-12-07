@@ -9,7 +9,6 @@ import SwiftUI
 
 protocol MainViewModelType {
     var dateFormatter: DateFormatter { get }
-    func getCountOfCards() -> Int
     func addItem()
     func deleteAllItems(_ cards: FetchedResults<Card>)
     func saveItem(card: Card?,
@@ -27,8 +26,14 @@ protocol MainViewModelType {
                          timestamp: Date,
                          amount: String,
                          photoData: Data?,
-                         card: Card)
+                         card: Card,
+                         selectedCategories: Set<TransactionCategory>)
     func deleteTransaction(_ transaction: CardTransaction)
+    func createCategory(name: String, color: Color)
+    func deleteCategory(_ cat: TransactionCategory)
+    func getColor(cat: TransactionCategory) -> Color?
+    func sortCats(_ cats: Set<TransactionCategory>) -> [TransactionCategory]
+    func prefetchCategory() -> TransactionCategory?
 }
 
 final class MainViewModel: MainViewModelType  {
@@ -42,16 +47,27 @@ final class MainViewModel: MainViewModelType  {
         return formatter
     }()
 
-    func getCountOfCards() -> Int {
-        coreDataService.getCount()
-    }
-
     func addItem() {
         coreDataService.addItem()
     }
 
     func deleteAllItems(_ cards: FetchedResults<Card>) {
         coreDataService.deleteAllItems(cards)
+    }
+
+    func getColor(cat: TransactionCategory) -> Color? {
+        if let data = cat.colorData,
+           let uiColor = UIColor.color(data: data) {
+            let color = Color(uiColor)
+            return color
+        }
+        return nil
+    }
+
+    func sortCats(_ cats: Set<TransactionCategory>) -> [TransactionCategory] {
+        return Array(cats).sorted(by: {
+            $0.timestamp?.compare($1.timestamp ?? Date()) == .orderedDescending
+        })
     }
 
     func saveItem(card: Card?,
@@ -84,15 +100,33 @@ final class MainViewModel: MainViewModelType  {
                          timestamp: Date,
                          amount: String,
                          photoData: Data?,
-                         card: Card) {
-        coreDataService.saveTransaction(name: name,
-                                        amount: amount,
-                                        timestamp: timestamp,
-                                        photoData: photoData,
-                                        card: card)
+                         card: Card,
+                         selectedCategories: Set<TransactionCategory>) {
+        coreDataService.saveTransaction(
+            name: name,
+            amount: amount,
+            timestamp: timestamp,
+            photoData: photoData,
+            card: card,
+            selectedCategories: selectedCategories
+        )
     }
 
     func deleteTransaction(_ transaction: CardTransaction) {
         coreDataService.deleteTransaction(transaction)
+    }
+
+    func createCategory(name: String, color: Color) {
+        if let colorData = UIColor(color).encode() {
+            coreDataService.createCategory(name: name, color: colorData)
+        }
+    }
+
+    func deleteCategory(_ cat: TransactionCategory) {
+        coreDataService.deleteCategory(cat)
+    }
+
+    func prefetchCategory() -> TransactionCategory? {
+        return coreDataService.prefetchCategory()
     }
 }
