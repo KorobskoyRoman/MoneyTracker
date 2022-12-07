@@ -26,10 +26,13 @@ protocol MainViewModelType {
                          timestamp: Date,
                          amount: String,
                          photoData: Data?,
-                         card: Card)
+                         card: Card,
+                         selectedCategories: Set<TransactionCategory>)
     func deleteTransaction(_ transaction: CardTransaction)
     func createCategory(name: String, color: Color)
     func deleteCategory(_ cat: TransactionCategory)
+    func getColor(cat: TransactionCategory) -> Color?
+    func sortCats(_ cats: Set<TransactionCategory>) -> [TransactionCategory]
 }
 
 final class MainViewModel: MainViewModelType  {

@@ -37,6 +37,7 @@ struct TransactionView: View {
     let vm: MainViewModelType
 
     private let shadowRadius: CGFloat = 5
+    private let paddings: CGFloat = 8
 
     @State private var actionSheetShow = false
 
@@ -76,6 +77,27 @@ struct TransactionView: View {
                         }
 
                     Text(String(transaction.amount))
+                }
+            }
+
+            if let categories = transaction.categories as? Set<TransactionCategory> {
+                let sortedCats = vm.sortCats(categories)
+
+                HStack {
+                    ForEach(sortedCats, id: \.self) { cat in
+                        HStack {
+                            if let color = vm.getColor(cat: cat) {
+                                Text(cat.name ?? "")
+                                    .font(.system(size: 16, weight: .semibold))
+                                    .padding(.vertical, paddings)
+                                    .padding(.horizontal, paddings)
+                                    .background(color)
+                                    .foregroundColor(.white)
+                                    .cornerRadius(shadowRadius)
+                            }
+                        }
+                    }
+                    Spacer()
                 }
             }
 

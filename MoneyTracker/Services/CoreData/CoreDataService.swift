@@ -80,7 +80,8 @@ final class CoreDataService: ObservableObject {
                          amount: String,
                          timestamp: Date,
                          photoData: Data?,
-                         card: Card) {
+                         card: Card,
+                         selectedCategories: Set<TransactionCategory>) {
         let transaction = CardTransaction(context: viewContext)
         transaction.name = name
         transaction.amount = Float(amount) ?? 0
@@ -88,6 +89,7 @@ final class CoreDataService: ObservableObject {
         transaction.photoData = photoData
 
         transaction.card = card
+        transaction.categories = selectedCategories as NSSet
 
         do {
             try viewContext.save()
