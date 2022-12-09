@@ -28,7 +28,7 @@ struct CardView: View {
             }
             balanceView
             Text(card.number ?? "")
-            Text("Credit limit: \(card.limit)")
+            Text("Кредитный лимит: \(card.limit)")
 
             HStack { Spacer() }
         }
@@ -83,7 +83,7 @@ extension CardView {
                 .frame(height: 33)
                 .clipped()
             Spacer()
-            Text("Balance: \(card.balance) Rub.")
+            Text("Баланс: \(card.balance) Rub.")
                 .font(.system(size: 18, weight: .semibold))
         }
     }
