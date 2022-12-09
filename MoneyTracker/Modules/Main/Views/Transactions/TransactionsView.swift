@@ -37,7 +37,7 @@ struct TransactionsView: View {
                     addTransactionFormIsPresented.toggle()
                 } label: {
                     Text(Titles.addTransactionButton)
-                        .foregroundColor(.white)
+                        .foregroundColor(Color.bwText)
                         .font(.system(size: 14, weight: .bold))
                         .padding(EdgeInsets(
                             top: 8,
@@ -45,7 +45,7 @@ struct TransactionsView: View {
                             bottom: 8,
                             trailing: 12)
                         )
-                        .background(Color(.label))
+                        .background(Color.bwBackground)
                         .cornerRadius(5)
                 }
             } else {
