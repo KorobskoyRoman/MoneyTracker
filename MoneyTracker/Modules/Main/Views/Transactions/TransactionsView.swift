@@ -133,6 +133,7 @@ struct TransactionsView: View {
 struct TransactionView: View {
     let transaction: CardTransaction
     let vm: MainViewModelType
+    let card: Card
 
     private let shadowRadius: CGFloat = 5
     private let paddings: CGFloat = 8
@@ -164,7 +165,7 @@ struct TransactionView: View {
                         .confirmationDialog(transaction.name ?? .defaultValue, isPresented: $actionSheetShow) {
                             Button(role: .destructive) {
                                 withAnimation {
-                                    vm.deleteTransaction(transaction)
+                                    vm.deleteTransaction(transaction, card)
                                 }
                             } label: {
                                 Text(Titles.deleteButtonTitle)

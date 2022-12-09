@@ -91,6 +91,9 @@ final class CoreDataService: ObservableObject {
         transaction.card = card
         transaction.categories = selectedCategories as NSSet
 
+        card.balance += Int64(amount) ?? 0
+        card.limit -= Int32(amount) ?? 0
+
         do {
             try viewContext.save()
         } catch {
@@ -98,7 +101,9 @@ final class CoreDataService: ObservableObject {
         }
     }
 
-    func deleteTransaction(_ transaction: CardTransaction) {
+    func deleteTransaction(_ transaction: CardTransaction, _ card: Card) {
+        card.limit += Int32(transaction.amount)
+        card.balance -= Int64(transaction.amount)
         viewContext.delete(transaction)
 
         do {

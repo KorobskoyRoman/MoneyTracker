@@ -28,7 +28,7 @@ protocol MainViewModelType {
                          photoData: Data?,
                          card: Card,
                          selectedCategories: Set<TransactionCategory>)
-    func deleteTransaction(_ transaction: CardTransaction)
+    func deleteTransaction(_ transaction: CardTransaction, _ card: Card)
     func createCategory(name: String, color: Color)
     func deleteCategory(_ cat: TransactionCategory)
     func getColor(cat: TransactionCategory) -> Color?
@@ -112,8 +112,8 @@ final class MainViewModel: MainViewModelType  {
         )
     }
 
-    func deleteTransaction(_ transaction: CardTransaction) {
-        coreDataService.deleteTransaction(transaction)
+    func deleteTransaction(_ transaction: CardTransaction, _ card: Card) {
+        coreDataService.deleteTransaction(transaction, card)
     }
 
     func createCategory(name: String, color: Color) {
