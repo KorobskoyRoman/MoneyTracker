@@ -95,7 +95,7 @@ struct TransactionsView: View {
             addTransactionFormIsPresented.toggle()
         } label: {
             Text(Titles.addTransactionButton)
-                .foregroundColor(.white)
+                .foregroundColor(Color.bwText)
                 .font(.system(size: 14, weight: .bold))
                 .padding(EdgeInsets(
                     top: 8,
@@ -103,7 +103,7 @@ struct TransactionsView: View {
                     bottom: 8,
                     trailing: 12)
                 )
-                .background(Color(.label))
+                .background(Color.bwBackground)
                 .cornerRadius(5)
         }
     }
@@ -116,7 +116,7 @@ struct TransactionsView: View {
                 Image(systemName: "line.horizontal.3.decrease.circle")
                 Text(Titles.filterButton)
             }
-            .foregroundColor(.white)
+            .foregroundColor(Color.bwText)
             .font(.system(size: 14, weight: .bold))
             .padding(EdgeInsets(
                 top: 8,
@@ -124,7 +124,7 @@ struct TransactionsView: View {
                 bottom: 8,
                 trailing: 12)
             )
-            .background(Color(.label))
+            .background(Color.bwBackground)
             .cornerRadius(5)
         }
     }
@@ -206,9 +206,9 @@ struct TransactionView: View {
                     .scaledToFill()
             }
         }
-        .foregroundColor(Color(.label))
+        .foregroundColor(Color.bwBackground)
         .padding()
-        .background(.white)
+        .background(Color.cardTransactionBackground)
         .cornerRadius(shadowRadius)
         .shadow(radius: shadowRadius)
         .padding()
