@@ -28,7 +28,9 @@ struct CardView: View {
             }
             balanceView
             Text(card.number ?? "")
-            Text("Кредитный лимит: \(card.limit)")
+            Text("Кредитный лимит: \(card.limit) Rub.")
+                .foregroundColor(card.limit > 0 ? Color.white : Color.red)
+                .fontWeight(card.limit > 0 ? .regular : .semibold)
 
             HStack { Spacer() }
         }
