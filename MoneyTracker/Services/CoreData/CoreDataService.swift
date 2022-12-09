@@ -150,4 +150,14 @@ final class CoreDataService: ObservableObject {
             return nil
         }
     }
+
+    // if something wrong with balance -> calculate here
+    func getBalance(card: Card) -> Float? {
+        var balance: Float = 0
+        guard let trans = card.transactions else { return nil }
+        trans.forEach({ el in
+            balance += (el as? CardTransaction)?.amount ?? 0
+        })
+        return balance
+    }
 }
