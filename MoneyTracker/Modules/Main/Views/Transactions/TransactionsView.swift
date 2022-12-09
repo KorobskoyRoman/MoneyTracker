@@ -14,6 +14,7 @@ struct TransactionsView: View {
     @State private var addTransactionFormIsPresented = false
     @State private var filterSheetIsPresented = false
     @State private var selectedCategories = Set<TransactionCategory>()
+    @State private var disableTransaction: Bool = false
 
     init(vm: MainViewModelType,
          card: Card) {
@@ -52,6 +53,7 @@ struct TransactionsView: View {
                 HStack {
                     Spacer()
                     addTransactionButton
+                        .disabled(card.limit < 0)
                     filterButton
                         .fullScreenCover(isPresented: $filterSheetIsPresented) {
                             FilterSheet(vm: vm, didSaveFilters: { categories in
@@ -62,7 +64,7 @@ struct TransactionsView: View {
                 .padding(.horizontal)
 
                 ForEach(filterTransactions(selectedCategories)) { transaction in
-                    TransactionView(transaction: transaction, vm: vm)
+                    TransactionView(transaction: transaction, vm: vm, card: card)
                 }
             }
         }
@@ -103,7 +105,7 @@ struct TransactionsView: View {
                     bottom: 8,
                     trailing: 12)
                 )
-                .background(Color.bwBackground)
+                .background(card.limit < 0 ? Color.gray : Color.bwBackground)
                 .cornerRadius(5)
         }
     }
