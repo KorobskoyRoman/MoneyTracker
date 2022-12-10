@@ -141,7 +141,7 @@ extension NewTransactionView {
         static let info = "Информация"
         static let phoro = "Фото"
         static let name = "Название"
-        static let amount = "Описание"
+        static let amount = "Стоимость"
         static let date = "Дата"
         static let type = "Тип"
         static let select = "Выбрать фото"

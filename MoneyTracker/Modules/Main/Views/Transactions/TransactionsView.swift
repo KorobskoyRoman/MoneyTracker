@@ -14,6 +14,7 @@ struct TransactionsView: View {
     @State private var addTransactionFormIsPresented = false
     @State private var filterSheetIsPresented = false
     @State private var selectedCategories = Set<TransactionCategory>()
+    @State private var disableTransaction: Bool = false
 
     init(vm: MainViewModelType,
          card: Card) {
@@ -37,7 +38,7 @@ struct TransactionsView: View {
                     addTransactionFormIsPresented.toggle()
                 } label: {
                     Text(Titles.addTransactionButton)
-                        .foregroundColor(.white)
+                        .foregroundColor(Color.bwText)
                         .font(.system(size: 14, weight: .bold))
                         .padding(EdgeInsets(
                             top: 8,
@@ -45,13 +46,14 @@ struct TransactionsView: View {
                             bottom: 8,
                             trailing: 12)
                         )
-                        .background(Color(.label))
+                        .background(Color.bwBackground)
                         .cornerRadius(5)
                 }
             } else {
                 HStack {
                     Spacer()
                     addTransactionButton
+                        .disabled(card.limit < 0)
                     filterButton
                         .fullScreenCover(isPresented: $filterSheetIsPresented) {
                             FilterSheet(vm: vm, didSaveFilters: { categories in
@@ -62,7 +64,7 @@ struct TransactionsView: View {
                 .padding(.horizontal)
 
                 ForEach(filterTransactions(selectedCategories)) { transaction in
-                    TransactionView(transaction: transaction, vm: vm)
+                    TransactionView(transaction: transaction, vm: vm, card: card)
                 }
             }
         }
@@ -103,7 +105,7 @@ struct TransactionsView: View {
                     bottom: 8,
                     trailing: 12)
                 )
-                .background(Color.bwBackground)
+                .background(card.limit < 0 ? Color.gray : Color.bwBackground)
                 .cornerRadius(5)
         }
     }
@@ -133,6 +135,7 @@ struct TransactionsView: View {
 struct TransactionView: View {
     let transaction: CardTransaction
     let vm: MainViewModelType
+    let card: Card
 
     private let shadowRadius: CGFloat = 5
     private let paddings: CGFloat = 8
@@ -164,7 +167,7 @@ struct TransactionView: View {
                         .confirmationDialog(transaction.name ?? .defaultValue, isPresented: $actionSheetShow) {
                             Button(role: .destructive) {
                                 withAnimation {
-                                    vm.deleteTransaction(transaction)
+                                    vm.deleteTransaction(transaction, card)
                                 }
                             } label: {
                                 Text(Titles.deleteButtonTitle)

@@ -138,7 +138,7 @@ extension AddCardView {
         static let cardInfo = "Информация о карте"
         static let expInfo = "Дата окончания"
         static let number = "Номер"
-        static let limit = "Баланс"
+        static let limit = "Кредитный лимит"
         static let type = "Тип"
         static let color = "Цвет"
         static let month = "Месяц"
